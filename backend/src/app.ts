@@ -2,6 +2,9 @@ import express from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
 
+import userRoutes from './routes/user.route'
+
+import errorHandler from './middlewares/error-handler'
 import unknownEndpoint from './middlewares/unknown-endpoint'
 
 const app = express()
@@ -19,6 +22,9 @@ app.get('/', (_req, res) => {
   res.send('Hello World!')
 })
 
-app.use(unknownEndpoint)
+app.use('/api/users', userRoutes)
+
+app.use(errorHandler)
+// app.use(unknownEndpoint)
 
 export default app
