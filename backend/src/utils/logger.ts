@@ -1,12 +1,12 @@
 function info(...params: string[]) {
-  console.log(...params);
+  console.log(...params)
 }
 
 function error(...params: string[]) {
-  console.error(...params);
+  console.error(...params)
 }
 
 export default {
   info,
-  error,
-};
+  error
+}

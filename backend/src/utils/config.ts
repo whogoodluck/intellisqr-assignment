@@ -1,9 +1,9 @@
-import { config } from "dotenv";
+import { config } from 'dotenv'
 
-config();
+config()
 
-const PORT: number | undefined = Number(process.env.PORT) || 3001;
+const PORT: number | undefined = Number(process.env.PORT) || 3001
 
 export default {
-  PORT,
-};
+  PORT
+}
