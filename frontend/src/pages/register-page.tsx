@@ -1,19 +1,18 @@
 import { useForm } from 'react-hook-form'
 import Button from '../components/button'
-import { LoginForm, loginFormSchema } from '../validators/auth-schema'
+import { RegisterForm, registerFormSchema } from '../validators/auth-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircleAlert } from 'lucide-react'
-import { useLogin } from '../hooks/user.hooks'
+import { useRegister } from '../hooks/user.hooks'
 import { useContext, useEffect } from 'react'
 import { AuthContext } from '../../providers/auth-provider'
 import { NavLink, useNavigate } from 'react-router-dom'
 
-function LoginPage() {
+function RegisterPage() {
   const { session } = useContext(AuthContext)
   const navigate = useNavigate()
 
   useEffect(() => {
-    console.log('s', session)
     if (session) {
       navigate('/')
     }
@@ -24,19 +23,19 @@ function LoginPage() {
     handleSubmit,
     formState: { errors }
   } = useForm({
-    resolver: zodResolver(loginFormSchema)
+    resolver: zodResolver(registerFormSchema)
   })
 
-  const { mutate: login, isPending, isError, error } = useLogin()
+  const { mutate: signup, isPending, isError, error } = useRegister()
 
-  const onSubmit = (data: LoginForm) => {
-    login(data)
+  const onSubmit = (data: RegisterForm) => {
+    signup(data)
   }
 
   return (
     <div className='h-screen flex items-center justify-center'>
       <div className='w-xs flex flex-col gap-6'>
-        <h1 className='text-3xl font-semibold text-center'>Welcome back!</h1>
+        <h1 className='text-3xl font-semibold text-center'>Create Account!</h1>
         <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-6'>
           <div>
             <input
@@ -70,10 +69,10 @@ function LoginPage() {
           <Button type='submit' text='Login' loading={isPending} className='w-full' />
         </form>
         <div className='text-center'>
-          <p className='text-sm font-medium text-[#101010]'>
-            Don&apos;t have an account?{' '}
-            <NavLink to={'/register'} className='text-[#2B3A67] hover:underline font-semibold'>
-              Register
+          <p className='text-sm font-medium'>
+            Have an account?{' '}
+            <NavLink to={'/login'} className='text-[#2B3A67] hover:underline font-semibold'>
+              login
             </NavLink>
           </p>
         </div>
@@ -82,4 +81,4 @@ function LoginPage() {
   )
 }
 
-export default LoginPage
+export default RegisterPage
