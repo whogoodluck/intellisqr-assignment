@@ -24,7 +24,7 @@ app.get('/', (_req, res) => {
 
 app.use('/api/users', userRoutes)
 
-app.use(errorHandler)
+app.use(errorHandler as unknown as express.ErrorRequestHandler)
 app.use(unknownEndpoint)
 
 export default app

@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import userService from '../services/user.service'
 import { IUser } from '../types/user'
 
-async function register(req: Request, res: Response, next: NextFunction): Promise<unknown> {
+async function register(req: Request, res: Response, next: NextFunction) {
   const { email, password }: IUser = req.body
   try {
     if (!email || !password) {
@@ -36,7 +36,7 @@ async function register(req: Request, res: Response, next: NextFunction): Promis
   }
 }
 
-async function login(req: Request, res: Response, next: NextFunction): Promise<unknown> {
+async function login(req: Request, res: Response, next: NextFunction) {
   const { email, password }: IUser = req.body
   try {
     const user = await userService.getUserByEmail(email)
