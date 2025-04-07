@@ -4,8 +4,20 @@ import { LoginForm, loginFormSchema } from '../validators/auth-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircleAlert } from 'lucide-react'
 import { useLogin } from '../hooks/user.hooks'
+import { useContext, useEffect } from 'react'
+import { AuthContext } from '../../providers/auth-provider'
+import { useNavigate } from 'react-router-dom'
 
 function LoginPage() {
+  const { session } = useContext(AuthContext)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!session) {
+      navigate('/login')
+    }
+  }, [session])
+
   const {
     register,
     handleSubmit,
@@ -14,9 +26,8 @@ function LoginPage() {
     resolver: zodResolver(loginFormSchema)
   })
 
-  const { data, mutate: login, isPending, isError, error } = useLogin()
-  console.log('d', data)
-
+  const { mutate: login, isPending, isError, error } = useLogin()
+  console.log('e', error)
   const onSubmit = (data: LoginForm) => {
     login(data)
   }
