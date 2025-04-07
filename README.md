@@ -20,9 +20,9 @@ You can view the live version of the application at:
 
 intellisqr-assignment/
 
-│── server/
+│── backend/
 
-│── client/
+│── frontend/
 
 │── README.md
 
@@ -36,15 +36,14 @@ intellisqr-assignment/
 - **React Hook Form** (Form handling)
 - **React Query** (Data fetching and caching)
 - **Zod** (Validation)
-- **Axios or Fetch API**
-- **Vite or CRA** (recommended: Vite)
+- **Vite**
 
 ### 🛠️ Backend
 
 - **Node.js + Express**
 - **TypeScript**
 - **Prisma** (ORM)
-- **PostgreSQL** (or any supported DB)
+- **PostgreSQL**
 
 ---
 
@@ -70,9 +69,11 @@ intellisqr-assignment/
 
 ````prisma
 model User {
-  id        String @id @default(uuid())
+  id        String @id @default(cuid())
   email     String @unique
   password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 
@@ -102,7 +103,7 @@ cd intellisqr-assignment
 
 ```bash
 
-cd server
+cd backend 
 
 npm install
 
@@ -120,7 +121,7 @@ npm install
 
   JWT_SECRET = <secretkey>
 
-  POSTGRES_URL=<your-db-url>
+  POSTGRES_URL = <your-db-url>
 
   ```
 
@@ -138,7 +139,7 @@ The backend will run on `http://localhost:3001`
 
 ```bash
 
-cd ../client
+cd ../frontend
 
 npm install
 
