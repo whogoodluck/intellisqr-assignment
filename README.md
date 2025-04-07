@@ -111,7 +111,7 @@ npm install
 
 #### 3. Configure environment variables
 
-- Create a `.env` file inside the `server/` folder
+- Create a `.env` file inside the `backend/` folder
 
 - Add the following:
 
@@ -147,7 +147,7 @@ npm install
 
 #### 3. Configure environment variables
 
-- Create a `.env` file inside the `client/` folder
+- Create a `.env` file inside the `frontend/` folder
 
 - Add the following:
 
