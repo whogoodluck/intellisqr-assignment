@@ -66,7 +66,7 @@ function RegisterPage() {
               </p>
             )}
           </div>
-          <Button type='submit' text='Login' loading={isPending} className='w-full' />
+          <Button type='submit' text='Register' loading={isPending} className='w-full' />
         </form>
         <div className='text-center'>
           <p className='text-sm font-medium'>
