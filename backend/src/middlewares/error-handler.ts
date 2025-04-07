@@ -29,7 +29,12 @@ const getErrorResponse = (err: ErrorType) => {
   return types[err.name] || types['default']
 }
 
-const errorHandler = (err: ErrorType, _req: Request, res: Response, next: NextFunction): any => {
+const errorHandler = (
+  err: ErrorType,
+  _req: Request,
+  res: Response,
+  next: NextFunction
+): Response<unknown> => {
   logger.error(err.message)
   const { statusCode, message } = getErrorResponse(err)
 

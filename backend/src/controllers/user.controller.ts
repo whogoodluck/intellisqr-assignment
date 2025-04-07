@@ -2,20 +2,22 @@ import { Request, Response, NextFunction } from 'express'
 import userService from '../services/user.service'
 import { IUser } from '../types/user'
 
-async function register(req: Request, res: Response, next: NextFunction): Promise<any> {
+async function register(req: Request, res: Response, next: NextFunction): Promise<unknown> {
   const { email, password }: IUser = req.body
   try {
     if (!email || !password) {
-      return res.status(400).json({ message: 'email and password are required' })
+      return res.status(400).json({ success: false, message: 'email and password are required' })
     }
 
     if (password.length < 8) {
-      return res.status(400).json({ message: 'password must be at least 8 characters' })
+      return res
+        .status(400)
+        .json({ success: false, message: 'password must be at least 8 characters' })
     }
 
     const existingUser = await userService.getUserByEmail(email)
     if (existingUser) {
-      return res.status(400).json({ message: 'email already in use' })
+      return res.status(400).json({ success: false, message: 'email already in use' })
     }
 
     const hashedPassword = await userService.hashPassword(password)
@@ -28,13 +30,13 @@ async function register(req: Request, res: Response, next: NextFunction): Promis
 
     return res
       .status(201)
-      .json({ message: 'user created', data: { user: userWithoutPassword, token } })
+      .json({ success: true, message: 'user created', data: { user: userWithoutPassword, token } })
   } catch (err) {
     next(err)
   }
 }
 
-async function login(req: Request, res: Response, next: NextFunction): Promise<any> {
+async function login(req: Request, res: Response, next: NextFunction): Promise<unknown> {
   const { email, password }: IUser = req.body
   try {
     const user = await userService.getUserByEmail(email)
@@ -44,16 +46,18 @@ async function login(req: Request, res: Response, next: NextFunction): Promise<a
       : await userService.comparePassword(password, user.password)
 
     if (!user || !correctPassword) {
-      return res.status(401).json({ message: 'invalid credentials' })
+      return res.status(401).json({ success: false, message: 'invalid credentials' })
     }
 
     const { password: _, ...userWithoutPassword } = user
 
     const token = await userService.signToken(user.id)
 
-    return res
-      .status(200)
-      .json({ message: 'user logged in', data: { user: userWithoutPassword, token } })
+    return res.status(200).json({
+      success: false,
+      message: 'user logged in',
+      data: { user: userWithoutPassword, token }
+    })
   } catch (err) {
     next(err)
   }
@@ -62,7 +66,9 @@ async function login(req: Request, res: Response, next: NextFunction): Promise<a
 async function getAll(_req: Request, res: Response, next: NextFunction) {
   try {
     const users = await userService.getAllUsers()
-    res.status(200).json({ message: 'users fetched', total: users.length, data: { users } })
+    res
+      .status(200)
+      .json({ success: false, message: 'users fetched', total: users.length, data: { users } })
   } catch (err) {
     next(err)
   }
